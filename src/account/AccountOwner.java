@@ -49,4 +49,8 @@ public class AccountOwner extends Person {
 		private String password;
 
 	}
+	@Override
+    public String toString() {
+        return super.toString() + ", monthlyIncome: " + monthlyIncome;
+    }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class BankManager extends AccountOwner {
 	
-	public static AccountOwner[] usersToAprove = new AccountOwner[100];
+	public static AccountOwner[] usersToApprove = new AccountOwner[100];
 
 
 	public void setAndApproveAcc() {

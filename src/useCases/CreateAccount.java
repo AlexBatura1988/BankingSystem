@@ -49,9 +49,11 @@ public class CreateAccount {
 		accountOwner.monthlyIncome = scanIntFloat.nextDouble();
 
 		System.out.println("waiting for a manager review, approval, and account type setting");
-		for (int i = 0; i < BankManager.usersToAprove.length; i++) {
-			if (BankManager.usersToAprove[i] == null)
-				BankManager.usersToAprove[i] = accountOwner;
+		for (int i = 0; i < BankManager.usersToApprove.length - 1; i++) {
+			if (BankManager.usersToApprove[i] == null) {
+				BankManager.usersToApprove[i] = accountOwner;
+				break;
+			}
 		}
 
 		// save to db

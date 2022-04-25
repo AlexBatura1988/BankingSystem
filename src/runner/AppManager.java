@@ -5,14 +5,12 @@ import Db.DB;
 import account.AccountOwner;
 import account.BankManager;
 import useCases.AccountOwnerMainMenu;
+import useCases.BankManagerMainMenu;
 import useCases.BankManagerStart;
 import useCases.CreateAccount;
 import useCases.Login;
 import useCases.StartScreen;
 import static Db.Constants.*;
-
-
-
 
 public class AppManager {
 
@@ -24,7 +22,7 @@ public class AppManager {
 
 		while (true) {
 			switch (screenResponse) {
-			case  START_SCREEN: {
+			case START_SCREEN: {
 				screenResponse = StartScreen.show();
 				break;
 			}
@@ -32,7 +30,7 @@ public class AppManager {
 				screenResponse = Login.showByName();
 				break;
 			}
-			case LOGIN_PHONE : {
+			case LOGIN_PHONE: {
 				screenResponse = Login.showByPhone();
 				break;
 			}
@@ -43,7 +41,7 @@ public class AppManager {
 			case LOGGED_IN: {
 				if (currUser instanceof BankManager) {
 					System.out.println("LoggedBankManager");
-					screenResponse = BankManagerStart.show();
+					screenResponse = BankManagerMainMenu.show();
 				} else {
 					System.out.println("LoggedUser");
 					screenResponse = AccountOwnerMainMenu.show();
@@ -63,7 +61,7 @@ public class AppManager {
 		accountOwner.setUsername("alex");
 		accountOwner.setPassword("1234");
 		accountOwner.account = new Account();
-        accountOwner.account.balance = 100;
+		accountOwner.account.balance = 100;
 		DB.accountOwners[0] = accountOwner;
 
 		accountOwner = new BankManager();
