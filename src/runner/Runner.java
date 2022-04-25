@@ -3,8 +3,9 @@ package runner;
 public class Runner {
 
 	public static void main(String[] args) {
-		System.out.println("test connect for tommorow");
 		
+		AppManager appManager = new AppManager();
+        appManager.run();
 
 	}
 
