@@ -15,7 +15,7 @@ public class CreateAccount {
 		Scanner scanIntFloat = new Scanner(System.in);
 		AccountOwner accountOwner = new AccountOwner();
 		while (true) {
-			accountOwner.phoneNumber = scanIntFloat.nextInt();
+			accountOwner.phoneNumber = scanString.nextLine();
 			if (CheckUniquePhoneNumber.isPhoneUnique(accountOwner.phoneNumber))
 				break;
 			System.out.println("Phone is used, enter again");

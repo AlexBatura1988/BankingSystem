@@ -33,12 +33,14 @@ public class Login {
 	public static int showByPhone() {
 		System.out.println("Enter phone");
 		Scanner scanner = new Scanner(System.in);
-		int scan;
+		String scan;
 		while (true) {
-			scan = scanner.nextInt();
+			scan = scanner.nextLine();
+
 			for (AccountOwner accountOwner : DB.accountOwners) {
 				if (accountOwner != null) {
-					if (accountOwner.phoneNumber == scan) {
+
+					if (accountOwner.phoneNumber.equals(scan)) {
 						AppManager.currUser = accountOwner;
 						return LOGGED_IN;
 					}

@@ -56,7 +56,7 @@ public class AppManager {
 
 	private void init() {
 		AccountOwner accountOwner = new AccountOwner();
-		accountOwner.phoneNumber = 1234;
+		accountOwner.phoneNumber = "1234";
 		accountOwner.monthlyIncome = 12;
 		accountOwner.setUsername("alex");
 		accountOwner.setPassword("1234");
@@ -65,7 +65,7 @@ public class AppManager {
 		DB.accountOwners[0] = accountOwner;
 
 		accountOwner = new BankManager();
-		accountOwner.phoneNumber = 123;
+		accountOwner.phoneNumber = "123";
 		accountOwner.monthlyIncome = 12;
 		accountOwner.setUsername("Gay");
 		accountOwner.setPassword("1234");
