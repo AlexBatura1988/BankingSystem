@@ -1,14 +1,18 @@
 package runner;
 
+import account.Account;
+import Db.DB;
 import account.AccountOwner;
 import account.BankManager;
+import useCases.AccountOwnerMainMenu;
 import useCases.BankManagerStart;
 import useCases.CreateAccount;
 import useCases.Login;
 import useCases.StartScreen;
 import static Db.Constants.*;
 
-import Db.DB;
+
+
 
 public class AppManager {
 
@@ -20,7 +24,7 @@ public class AppManager {
 
 		while (true) {
 			switch (screenResponse) {
-			case START_SCREEN: {
+			case  START_SCREEN: {
 				screenResponse = StartScreen.show();
 				break;
 			}
@@ -28,7 +32,7 @@ public class AppManager {
 				screenResponse = Login.showByName();
 				break;
 			}
-			case LOGIN_PHONE: {
+			case LOGIN_PHONE : {
 				screenResponse = Login.showByPhone();
 				break;
 			}
@@ -42,7 +46,7 @@ public class AppManager {
 					screenResponse = BankManagerStart.show();
 				} else {
 					System.out.println("LoggedUser");
-					return;
+					screenResponse = AccountOwnerMainMenu.show();
 
 				}
 				break;
@@ -58,6 +62,8 @@ public class AppManager {
 		accountOwner.monthlyIncome = 12;
 		accountOwner.setUsername("alex");
 		accountOwner.setPassword("1234");
+		accountOwner.account = new Account();
+        accountOwner.account.balance = 100;
 		DB.accountOwners[0] = accountOwner;
 
 		accountOwner = new BankManager();

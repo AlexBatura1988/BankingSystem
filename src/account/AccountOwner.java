@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class AccountOwner extends Person {
 
-	private Account account;
+	public Account account;
     public double monthlyIncome;
     public Credentials credentials;
     

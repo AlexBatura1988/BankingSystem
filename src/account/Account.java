@@ -2,18 +2,15 @@ package account;
 
 public class Account {
 	private static  long accountNumber = 0; 
-	private double balance;
-    private AccountProperties accountProperties;
+	public double balance;
+    public AccountProperties accountProperties;
     private double intrestRate;
     private double fee;
+    public ActivityData[] history = new ActivityData[100];
+	
     
-//	public Account(double balance, AccountProperties accountProperties, double intrestRate, double fee) {
-//		this.balance = balance;
-//		this.accountProperties = accountProperties;
-//		this.intrestRate = intrestRate;
-//		this.fee = fee;
-//		accountNumber ++;
-//	}
+    
+	
     
     
 

@@ -1,6 +1,9 @@
 package useCases;
 
 import java.util.Scanner;
+
+import Db.Constants;
+
 import static Db.Constants.*;
 
 public class StartScreen {
