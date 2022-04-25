@@ -3,10 +3,10 @@ package useCases;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-import Db.Constants;
 import account.ActivityData;
 import account.ActivityName;
 import runner.AppManager;
+import static Db.Constants.LOGOUT;
 
 public class AccountOwnerMainMenu {
 	public static int show() {
@@ -21,6 +21,11 @@ public class AccountOwnerMainMenu {
 			}
 			case 2: {
 				makeDeposit(scanner);
+				break;
+			}
+
+			case 0: {
+				return LOGOUT;
 			}
 
 			}
@@ -53,12 +58,12 @@ public class AccountOwnerMainMenu {
 
 		// save History
 		int historyIndex = -1;
-		 for (int i = 0; i < AppManager.currUser.account.history.length -1; i++) {
-	            if (AppManager.currUser.account.history[i] == null) {
-	                historyIndex = i;
-	                break;
-	            }
-	        }
+		for (int i = 0; i < AppManager.currUser.account.history.length - 1; i++) {
+			if (AppManager.currUser.account.history[i] == null) {
+				historyIndex = i;
+				break;
+			}
+		}
 
 		ActivityData activityData = new ActivityData();
 		activityData.activityName = ActivityName.DEPOSIT;
@@ -73,6 +78,7 @@ public class AccountOwnerMainMenu {
 	private static void showMenu() {
 		System.out.println("1. Check account balance");
 		System.out.println("2. Make a deposit");
+		System.out.println("0. logout");
 	}
 
 }

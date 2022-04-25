@@ -49,6 +49,11 @@ public class AppManager {
 				}
 				break;
 			}
+			case LOGOUT:{
+				currUser = null;
+				screenResponse = StartScreen.show();
+				break;
+			}
 			}
 
 		}
