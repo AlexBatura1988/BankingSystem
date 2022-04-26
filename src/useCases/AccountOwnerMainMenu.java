@@ -8,6 +8,7 @@ import account.ActivityData;
 import account.ActivityName;
 import runner.AppManager;
 import static Db.Constants.LOGOUT;
+import static account.ActivityName.*;
 
 public class AccountOwnerMainMenu {
 	public static int show() {
@@ -24,6 +25,10 @@ public class AccountOwnerMainMenu {
 				makeDeposit(scanner);
 				break;
 			}
+			case 3: {
+				withdrawal(scanner);
+				break;
+			}
 
 			case 0: {
 				return LOGOUT;
@@ -32,6 +37,20 @@ public class AccountOwnerMainMenu {
 			}
 		}
 
+	}
+
+	private static void withdrawal(Scanner scanner) {
+		System.out.println("Enter amount: ");
+		double amount = Math.abs(scanner.nextDouble());
+		if (CheckWithdrawalDailyLimit.isLimited(amount)) {
+			System.out.println("the amount exceeds the daily max :" + AppManager.currUser.account.accountProperties.getWithdrawalAmount() );
+		} else {
+			System.out.println("Successfully");
+			AppManager.currUser.withdrawal(amount);
+			ActivityData data = new ActivityData(WITHDRAWAL, amount, LocalDateTime.now(), null);
+			AppManager.currUser.account.addHistoryData(data);
+			DB.saveCurrentUser();
+		}
 	}
 
 	private static void makeDeposit(Scanner scanner) {
@@ -68,6 +87,7 @@ public class AccountOwnerMainMenu {
 	private static void showMenu() {
 		System.out.println("1. Check account balance");
 		System.out.println("2. Make a deposit");
+		System.out.println("3. Withdrawal");
 		System.out.println("0. logout");
 	}
 

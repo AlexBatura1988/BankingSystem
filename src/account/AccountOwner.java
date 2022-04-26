@@ -44,9 +44,11 @@ public class AccountOwner extends Person {
         }
 		
 	}
-//	public void withdrawal() {
-//		
-//	}
+	public void withdrawal(double amount) {
+		if(account != null) {
+			account.balance -= amount;
+		}
+	}
 //	public void transferFunds()
 //	{
 //		
