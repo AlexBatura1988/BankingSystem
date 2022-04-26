@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import Db.Constants;
+import Db.DB;
 import account.AccountOwner;
 import account.BankManager;
 import static Db.Constants.START_SCREEN;
@@ -16,6 +17,7 @@ public class CreateAccount {
 		AccountOwner accountOwner = new AccountOwner();
 		while (true) {
 			accountOwner.phoneNumber = scanString.nextLine();
+			System.out.println(accountOwner.phoneNumber);
 			if (CheckUniquePhoneNumber.isPhoneUnique(accountOwner.phoneNumber))
 				break;
 			System.out.println("Phone is used, enter again");
@@ -56,7 +58,9 @@ public class CreateAccount {
 			}
 		}
 
-		// save to db
+		
+		
+		
 		return START_SCREEN;
 	}
 

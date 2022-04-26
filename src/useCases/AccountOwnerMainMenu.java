@@ -3,6 +3,7 @@ package useCases;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+import Db.DB;
 import account.ActivityData;
 import account.ActivityName;
 import runner.AppManager;
@@ -54,25 +55,14 @@ public class AccountOwnerMainMenu {
 		System.out.println("Enter message: ");
 		String message = new Scanner(System.in).nextLine();
 
-		AppManager.currUser.account.balance += amount;
+		AppManager.currUser.deposit(amount);
 
-		// save History
-		int historyIndex = -1;
-		for (int i = 0; i < AppManager.currUser.account.history.length - 1; i++) {
-			if (AppManager.currUser.account.history[i] == null) {
-				historyIndex = i;
-				break;
-			}
-		}
-
-		ActivityData activityData = new ActivityData();
-		activityData.activityName = ActivityName.DEPOSIT;
-		activityData.balanceChange = amount;
-		activityData.timeStamp = LocalDateTime.now();
-		activityData.info = message;
-		AppManager.currUser.account.history[historyIndex] = activityData;
+		ActivityData activityData = new ActivityData(ActivityName.DEPOSIT, amount, LocalDateTime.now(), message);
+		AppManager.currUser.account.addHistoryData(activityData);
+		DB.saveCurrentUser();
 
 		System.out.println("Ok");
+
 	}
 
 	private static void showMenu() {

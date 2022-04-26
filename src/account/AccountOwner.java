@@ -27,15 +27,23 @@ public class AccountOwner extends Person {
         credentials.username = username;
     }
 
-//	public void checkBalance() {
-//		
-//	}
+	public double checkBalance() {
+		if(account != null) {
+			return account.balance;
+		}else {
+			return 0.0;
+		}
+		
+	}
 //	public void produceReport(LocalDate start) {
 //		
 //	}
-//	public void deposit() {
-//		
-//	}
+	public void deposit(double amount) {
+		if (account != null) {
+            account.balance += amount;
+        }
+		
+	}
 //	public void withdrawal() {
 //		
 //	}
