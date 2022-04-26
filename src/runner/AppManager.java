@@ -13,13 +13,15 @@ import useCases.Login;
 import useCases.StartScreen;
 import static Db.Constants.*;
 
+import Db.Constants;
+
 public class AppManager {
 
 	public static AccountOwner currUser;
 
 	public void run() {
 		init();
-		int screenResponse = StartScreen.show();
+		Constants screenResponse = StartScreen.show();
 
 		while (true) {
 			switch (screenResponse) {
@@ -73,7 +75,7 @@ public class AppManager {
 
         AccountOwner accountOwner = new AccountOwner();
         Account account = new Account();
-        account.accountProperties = AccountProperties.BRONZE;
+        account.accountProperties = AccountProperties.GOLD;
         accountOwner.account = account;
         accountOwner.phoneNumber = "1111";
         accountOwner.setUsername("a");

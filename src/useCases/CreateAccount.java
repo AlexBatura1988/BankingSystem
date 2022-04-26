@@ -13,7 +13,7 @@ import useCases.checkers.CheckUniqueUserName;
 import static Db.Constants.START_SCREEN;
 
 public class CreateAccount {
-	public static int show() {
+	public static Constants show() {
 		System.out.println("Enter phone number");
 		Scanner scanString = new Scanner(System.in);
 		Scanner scanIntFloat = new Scanner(System.in);

@@ -3,6 +3,7 @@ package useCases;
 import java.util.Scanner;
 import static Db.Constants.LOGOUT;
 
+import Db.Constants;
 import Db.DB;
 import account.Account;
 import account.AccountOwner;
@@ -12,7 +13,7 @@ import runner.AppManager;
 
 public class BankManagerMainMenu {
 
-	public static int show() {
+	public static Constants show() {
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
 			showMenu();

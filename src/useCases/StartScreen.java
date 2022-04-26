@@ -7,7 +7,7 @@ import Db.Constants;
 import static Db.Constants.*;
 
 public class StartScreen {
-	 public static int show() {
+	 public static Constants show() {
 	        while (true) {
 	            System.out.println("1. login(username, password)");
 	            System.out.println("2. login(phone Number)");

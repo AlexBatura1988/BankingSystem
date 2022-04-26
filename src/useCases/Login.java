@@ -12,7 +12,7 @@ import Db.DB;
 import static Db.Constants.LOGGED_IN;
 
 public class Login {
-	public static int showByName() {
+	public static Constants showByName() {
 		System.out.println("Enter username and pass");
 		Scanner scanner = new Scanner(System.in);
 		String scan;
@@ -54,7 +54,7 @@ public class Login {
 		}
 	}
 
-	public static int showByPhone() {
+	public static Constants showByPhone() {
 		System.out.println("Enter phone");
 		Scanner scanner = new Scanner(System.in);
 		String scan;

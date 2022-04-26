@@ -3,6 +3,7 @@ package useCases;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+import Db.Constants;
 import Db.DB;
 import account.ActivityData;
 import account.ActivityName;
@@ -13,7 +14,7 @@ import static Db.Constants.LOGOUT;
 import static account.ActivityName.*;
 
 public class AccountOwnerMainMenu {
-	public static int show() {
+	public static Constants show() {
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
 			showMenu();
@@ -43,6 +44,10 @@ public class AccountOwnerMainMenu {
 				AppManager.currUser.produceReport();
 				break;
 			}
+			case 7: {
+                AppManager.currUser.payBill();
+                break;
+            }
 
 			case 0: {
 				return LOGOUT;
@@ -59,6 +64,7 @@ public class AccountOwnerMainMenu {
 		System.out.println("4. Request loan");
 		System.out.println("5. Transfer");
 		System.out.println("6. Report");
+		System.out.println("7. Pay bill");
 		System.out.println("0. logout");
 	}
 

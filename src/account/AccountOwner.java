@@ -55,36 +55,86 @@ public class AccountOwner extends Person {
 	}
 
 	public void deposit() {
+		 Scanner scanner = new Scanner(System.in);
+	        System.out.println("Make a deposit");
+	        int code = (int) (1000 + Math.random() * 900);
+	        System.out.println("Your code: " + code);
+	        System.out.print("Enter code: ");
+	        while (true) {
+	            if (code == scanner.nextInt()) {
+	                break;
+	            } else {
+	                System.out.println("Try Again");
+	                code = (int) (1000 + (Math.random() * 900));
+	                System.out.println("Your code: " + code);
+	                System.out.print("Enter code: ");
+	            }
+	        }
+	        System.out.println("Enter the amount of funds to deposit: ");
+	        double amount = scanner.nextDouble();
+
+	        System.out.println("Enter message: ");
+	        String message = new Scanner(System.in).nextLine();
+
+	        account.balance += amount;
+	        account.balance -= account.accountProperties.getFee();
+
+
+	        ActivityData activityData = new ActivityData(
+	                ActivityName.DEPOSIT,
+	                amount,
+	                LocalDateTime.now(),
+	                message
+	        );
+	        account.addHistoryData(activityData);
+	        DB.saveCurrentUser();
+	        System.out.println("Added: " + amount + " Fee: " + account.accountProperties.getFee());
+	    }
+
+	public void payBill() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Make a deposit");
-		int code = (int) (1000 + Math.random() * 900);
-		System.out.println("Your code: " + code);
-		System.out.print("Enter code: ");
+		int num;
+		String type;
+		double amount;
 		while (true) {
-			if (code == scanner.nextInt()) {
+			System.out.println("Pay Bill");
+			System.out.println("1. Water");
+			System.out.println("2. Phone");
+			System.out.println("3. Electricity");
+			System.out.println("0. back");
+
+			num = scanner.nextInt();
+
+			if (num == 0) {
+				return;
+			} else if (num == 1) {
+				type = "Water";
 				break;
-			} else {
-				System.out.println("Try Again");
-				code = (int) (1000 + (Math.random() * 900));
-				System.out.println("Your code: " + code);
-				System.out.print("Enter code: ");
+			} else if (num == 2) {
+				type = "Phone";
+				break;
+			} else if (num == 3) {
+				type = "Electricity";
+				break;
 			}
 		}
-		System.out.println("Enter the amount of funds to deposit: ");
-		double amount = scanner.nextDouble();
+		while (true) {
+			System.out.println("Enter amount (limit 5000): ");
+			amount = scanner.nextDouble();
 
-		System.out.println("Enter message: ");
-		String message = new Scanner(System.in).nextLine();
-
-		if (account != null) {
-			account.balance += amount;
+			if (amount > 5000) {
+				System.out.println("limit exceeded");
+			} else {
+				break;
+			}
 		}
 
-		ActivityData activityData = new ActivityData(ActivityName.DEPOSIT, amount, LocalDateTime.now(), message);
-		account.addHistoryData(activityData);
-		DB.saveCurrentUser();
-		System.out.println("Ok");
-
+		ActivityData data = new ActivityData(ActivityName.PAY_BILL, amount, LocalDateTime.now(), "Pay bill: " + type);
+		account.balance -= amount;
+		account.balance -= account.accountProperties.getFee();
+		account.addHistoryData(data);
+		System.out.println(
+				"Bill payed for: " + type + ", amount: " + amount + ", fee: " + account.accountProperties.getFee());
 	}
 
 	public void transfer() {
@@ -178,18 +228,24 @@ public class AccountOwner extends Person {
 
 	public void withdrawal() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter amount: ");
-		double amount = Math.abs(scanner.nextDouble());
-		if (CheckWithdrawalDailyLimit.isLimited(amount)) {
-			System.out.println("the amount exceeds the daily max");
-		} else {
-			System.out.println("Successfully");
-			account.balance -= amount;
+        System.out.println("Enter amount: ");
+        double amount = Math.abs(scanner.nextDouble());
+        if (CheckWithdrawalDailyLimit.isLimited(amount)) {
+            System.out.println("the amount exceeds the daily max");
+        } else {
+            System.out.println("Successfully, withdrawal: " + amount + " Fee: " + account.accountProperties.getFee());
+            account.balance -= amount;
+            account.balance -= account.accountProperties.getFee();
 
-			ActivityData data = new ActivityData(WITHDRAWAL, amount, LocalDateTime.now(), null);
-			account.addHistoryData(data);
-			DB.saveCurrentUser();
-		}
+            ActivityData data = new ActivityData(
+                    WITHDRAWAL,
+                    amount,
+                    LocalDateTime.now(),
+                    null
+            );
+            account.addHistoryData(data);
+            DB.saveCurrentUser();
+        }
 	}
 
 	class Credentials {
