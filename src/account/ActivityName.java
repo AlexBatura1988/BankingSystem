@@ -1,4 +1,10 @@
 package account;
+/**
+ * 
+ * @author alexb
+ * enum class 
+ *
+ */
 
 public enum ActivityName {
 	

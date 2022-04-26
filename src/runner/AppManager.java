@@ -64,20 +64,20 @@ public class AppManager {
 
 	private void init() {
 		BankManager bankManager = new BankManager();
-        bankManager.phoneNumber = "123";
-        bankManager.monthlyIncome = 12;
+        bankManager.setPhoneNumber("123");
+        bankManager.setMonthlyIncome(12);
         bankManager.setUsername("m");
         bankManager.setPassword("1");
         Account account1 = new Account();
         account1.balance += 100000;
-        bankManager.account = account1;
+        bankManager.setAccount(account1);
         DB.accountOwners[0] = bankManager;
 
         AccountOwner accountOwner = new AccountOwner();
         Account account = new Account();
         account.accountProperties = AccountProperties.GOLD;
-        accountOwner.account = account;
-        accountOwner.phoneNumber = "1111";
+        accountOwner.setAccount(account);
+        accountOwner.setPhoneNumber("1111");
         accountOwner.setUsername("a");
         DB.accountOwners[1] = accountOwner;
         

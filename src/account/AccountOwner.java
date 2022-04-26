@@ -8,14 +8,36 @@ import static account.ActivityName.*;
 import Db.DB;
 import useCases.checkers.CheckWithdrawalDailyLimit;
 
+/**
+ * 
+ * @author alexb class accountOwner provide to user operation with account
+ *
+ */
+
 public class AccountOwner extends Person {
 
-	public Account account;
-	public double monthlyIncome;
+	public Account account = null;
+	private double monthlyIncome;
 	public Credentials credentials;
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
 	public void setPassword(String password) {
 		credentials.password = password;
+	}
+
+	public double getMonthlyIncome() {
+		return monthlyIncome;
+	}
+
+	public void setMonthlyIncome(double monthlyIncome) {
+		this.monthlyIncome = monthlyIncome;
 	}
 
 	public AccountOwner() {
@@ -38,6 +60,9 @@ public class AccountOwner extends Person {
 		System.out.println("Balance:" + account.balance);
 	}
 
+	/**
+	 * produceReport show the operation history by date
+	 */
 	public void produceReport() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter date from (dd mm yyyy): ");
@@ -45,7 +70,7 @@ public class AccountOwner extends Person {
 		int month = scanner.nextInt();
 		int year = scanner.nextInt();
 		LocalDate dateFrom = LocalDate.of(year, month, day);
-		for (ActivityData data : account.history) {
+		for (ActivityData data : account.getHistory()) {
 			if (data != null) {
 				if (data.timeStamp.isAfter(dateFrom.atTime(0, 0))) {
 					System.out.println(data);
@@ -54,43 +79,44 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	/**
+	 * deposit to account by generation random code and approving code by user, and
+	 * save to data base
+	 */
 	public void deposit() {
-		 Scanner scanner = new Scanner(System.in);
-	        System.out.println("Make a deposit");
-	        int code = (int) (1000 + Math.random() * 900);
-	        System.out.println("Your code: " + code);
-	        System.out.print("Enter code: ");
-	        while (true) {
-	            if (code == scanner.nextInt()) {
-	                break;
-	            } else {
-	                System.out.println("Try Again");
-	                code = (int) (1000 + (Math.random() * 900));
-	                System.out.println("Your code: " + code);
-	                System.out.print("Enter code: ");
-	            }
-	        }
-	        System.out.println("Enter the amount of funds to deposit: ");
-	        double amount = scanner.nextDouble();
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Make a deposit");
+		int code = (int) (1000 + Math.random() * 900);
+		System.out.println("Your code: " + code);
+		System.out.print("Enter code: ");
+		while (true) {
+			if (code == scanner.nextInt()) {
+				break;
+			} else {
+				System.out.println("Try Again");
+				code = (int) (1000 + (Math.random() * 900));
+				System.out.println("Your code: " + code);
+				System.out.print("Enter code: ");
+			}
+		}
+		System.out.println("Enter the amount of funds to deposit: ");
+		double amount = scanner.nextDouble();
 
-	        System.out.println("Enter message: ");
-	        String message = new Scanner(System.in).nextLine();
+		System.out.println("Enter message: ");
+		String message = new Scanner(System.in).nextLine();
 
-	        account.balance += amount;
-	        account.balance -= account.accountProperties.getFee();
+		account.balance += amount;
+		account.balance -= account.accountProperties.getFee();
 
+		ActivityData activityData = new ActivityData(ActivityName.DEPOSIT, amount, LocalDateTime.now(), message);
+		account.addHistoryData(activityData);
+		DB.saveCurrentUser();
+		System.out.println("Added: " + amount + " Fee: " + account.accountProperties.getFee());
+	}
 
-	        ActivityData activityData = new ActivityData(
-	                ActivityName.DEPOSIT,
-	                amount,
-	                LocalDateTime.now(),
-	                message
-	        );
-	        account.addHistoryData(activityData);
-	        DB.saveCurrentUser();
-	        System.out.println("Added: " + amount + " Fee: " + account.accountProperties.getFee());
-	    }
-
+	/**
+	 * pay bill for water,phone and electricity
+	 */
 	public void payBill() {
 		Scanner scanner = new Scanner(System.in);
 		int num;
@@ -137,6 +163,9 @@ public class AccountOwner extends Person {
 				"Bill payed for: " + type + ", amount: " + amount + ", fee: " + account.accountProperties.getFee());
 	}
 
+	/**
+	 * transfer money to user by phone number and update amount
+	 */
 	public void transfer() {
 		Scanner scannerDigits = new Scanner(System.in);
 		Scanner scannerStrings = new Scanner(System.in);
@@ -187,6 +216,10 @@ public class AccountOwner extends Person {
 				+ account.accountProperties.getFee());
 	}
 
+	/**
+	 * user get loan from bank, function checked by account type max loan amount,
+	 * and gives loan for 60 payments maximum
+	 */
 	public void getLoan() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Request loan");
@@ -226,30 +259,29 @@ public class AccountOwner extends Person {
 		System.out.println("Ok");
 	}
 
+	/**
+	 * function checks withdrawal daily limit by type account and withdrawal money
+	 * from account and update amount
+	 */
 	public void withdrawal() {
 		Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter amount: ");
-        double amount = Math.abs(scanner.nextDouble());
-        if (CheckWithdrawalDailyLimit.isLimited(amount)) {
-            System.out.println("the amount exceeds the daily max");
-        } else {
-            System.out.println("Successfully, withdrawal: " + amount + " Fee: " + account.accountProperties.getFee());
-            account.balance -= amount;
-            account.balance -= account.accountProperties.getFee();
+		System.out.println("Enter amount: ");
+		double amount = Math.abs(scanner.nextDouble());
+		if (CheckWithdrawalDailyLimit.isLimited(amount)) {
+			System.out.println("the amount exceeds the daily max");
+		} else {
+			System.out.println("Successfully, withdrawal: " + amount + " Fee: " + account.accountProperties.getFee());
+			account.balance -= amount;
+			account.balance -= account.accountProperties.getFee();
 
-            ActivityData data = new ActivityData(
-                    WITHDRAWAL,
-                    amount,
-                    LocalDateTime.now(),
-                    null
-            );
-            account.addHistoryData(data);
-            DB.saveCurrentUser();
-        }
+			ActivityData data = new ActivityData(WITHDRAWAL, amount, LocalDateTime.now(), null);
+			account.addHistoryData(data);
+			DB.saveCurrentUser();
+		}
 	}
 
 	class Credentials {
-		public String username;
+		private String username;
 		private String password;
 
 	}

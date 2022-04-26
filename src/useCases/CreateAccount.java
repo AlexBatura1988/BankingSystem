@@ -19,23 +19,23 @@ public class CreateAccount {
 		Scanner scanIntFloat = new Scanner(System.in);
 		AccountOwner accountOwner = new AccountOwner();
 		while (true) {
-			accountOwner.phoneNumber = scanString.nextLine();
-			if (accountOwner.phoneNumber.length() < 4) {
+			accountOwner.setPhoneNumber(scanString.nextLine());
+			if (accountOwner.getPhoneNumber().length() < 4) {
 				System.out.println("Too short number, enter again");
 				continue;
 			}
-			if (accountOwner.phoneNumber.matches(".*[a-zA-Z].*")) {
+			if (accountOwner.getPhoneNumber().matches(".*[a-zA-Z].*")) {
 				System.out.println("Phone number contains letters, enter again");
 				continue;
 			}
-			if (CheckUniquePhoneNumber.isPhoneUnique(accountOwner.phoneNumber))
+			if (CheckUniquePhoneNumber.isPhoneUnique(accountOwner.getPhoneNumber()))
 				break;
 			System.out.println("Phone is used, enter again");
 		}
 		while (true) {
 			System.out.println("Enter name (no digits)");
-			accountOwner.firstName = scanString.nextLine();
-			if (accountOwner.firstName.matches(".*\\d+.*")) {
+			accountOwner.setFirstName(scanString.nextLine());
+			if (accountOwner.getFirstName().matches(".*\\d+.*")) {
 				System.out.println("Wrong input, name contains digits");
 			} else
 				break;
@@ -43,8 +43,8 @@ public class CreateAccount {
 
 		while (true) {
 			System.out.println("Enter last name (no digits)");
-			accountOwner.lastName = scanString.nextLine();
-			if (accountOwner.lastName.matches(".*\\d+.*")) {
+			accountOwner.setLastName(scanString.nextLine());
+			if (accountOwner.getLastName().matches(".*\\d+.*")) {
 				System.out.println("Wrong input, last name contains digits");
 			} else
 				break;
@@ -54,7 +54,7 @@ public class CreateAccount {
 		int day = scanIntFloat.nextInt();
 		int month = scanIntFloat.nextInt();
 		int year = scanIntFloat.nextInt();
-		accountOwner.birthDate = LocalDate.of(year, month, day);
+		accountOwner.setBirthDate(LocalDate.of(year, month, day));
 
 		System.out.println("Enter userName");
 		String username;
@@ -83,7 +83,7 @@ public class CreateAccount {
 		}
 
 		System.out.println("Enter monthly income");
-		accountOwner.monthlyIncome = scanIntFloat.nextDouble();
+		accountOwner.setMonthlyIncome(scanIntFloat.nextDouble());
 
 		System.out.println("waiting for a manager review, approval, and account type setting");
 		BankManager.addUserToApprove(accountOwner);

@@ -64,7 +64,7 @@ public class Login {
 			for (AccountOwner accountOwner : DB.accountOwners) {
 				if (accountOwner != null) {
 
-					if (accountOwner.phoneNumber.equals(scan)) {
+					if (accountOwner.getPhoneNumber().equals(scan)) {
 						AppManager.currUser = accountOwner;
 						return LOGGED_IN;
 					}

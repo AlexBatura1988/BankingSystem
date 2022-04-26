@@ -12,6 +12,12 @@ import useCases.checkers.CheckWithdrawalDailyLimit;
 
 import static Db.Constants.LOGOUT;
 import static account.ActivityName.*;
+/**
+ * 
+ * @author alexb
+ * main menu for account owner
+ *
+ */
 
 public class AccountOwnerMainMenu {
 	public static Constants show() {
