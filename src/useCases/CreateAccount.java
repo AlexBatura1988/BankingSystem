@@ -67,13 +67,13 @@ public class CreateAccount {
 		accountOwner.setUsername(username);
 
 		while (true) {
-			System.out.println("Enter password (4-8 digits and letters");
+			System.out.println("Enter password (4-8 digits and letters)");
 			String password = scanString.nextLine();
 			if (password.length() < 4 || password.length() > 8) {
 				System.out.println("wrong length");
 				continue;
 			}
-			if (!password.matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$")) {
+			if (!password.matches(".*[a-zA-Z].*") || !password.matches(".*\\d+.*")) {
 				System.out.println("Wrong input");
 			} else {
 				accountOwner.setPassword(password);

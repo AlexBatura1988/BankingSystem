@@ -75,9 +75,11 @@ public class AppManager {
         Account account = new Account();
         account.accountProperties = AccountProperties.BRONZE;
         accountOwner.account = account;
-        accountOwner.phoneNumber = "1";
+        accountOwner.phoneNumber = "1111";
         accountOwner.setUsername("a");
         DB.accountOwners[1] = accountOwner;
+        
+        
 	}
 
 }

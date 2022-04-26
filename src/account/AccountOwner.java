@@ -37,23 +37,22 @@ public class AccountOwner extends Person {
 	public void checkBalance() {
 		System.out.println("Balance:" + account.balance);
 	}
-	
-	public void produceReport() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter date from (dd mm yyyy): ");
-        int day = scanner.nextInt();
-        int month = scanner.nextInt();
-        int year = scanner.nextInt();
-        LocalDate dateFrom = LocalDate.of(year, month, day);
-        for(ActivityData data: account.history) {
-            if (data != null){
-                if (data.timeStamp.isAfter(dateFrom.atTime(0,0))) {
-                    System.out.println(data);
-                }
-            }
-        }
-    }
 
+	public void produceReport() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter date from (dd mm yyyy): ");
+		int day = scanner.nextInt();
+		int month = scanner.nextInt();
+		int year = scanner.nextInt();
+		LocalDate dateFrom = LocalDate.of(year, month, day);
+		for (ActivityData data : account.history) {
+			if (data != null) {
+				if (data.timeStamp.isAfter(dateFrom.atTime(0, 0))) {
+					System.out.println(data);
+				}
+			}
+		}
+	}
 
 	public void deposit() {
 		Scanner scanner = new Scanner(System.in);
@@ -86,6 +85,56 @@ public class AccountOwner extends Person {
 		DB.saveCurrentUser();
 		System.out.println("Ok");
 
+	}
+
+	public void transfer() {
+		Scanner scannerDigits = new Scanner(System.in);
+		Scanner scannerStrings = new Scanner(System.in);
+		System.out.println("Transfer");
+		double amount;
+		while (true) {
+			System.out.println("Enter amount (2000 max):");
+			amount = scannerDigits.nextDouble();
+			if (amount > 2000) {
+				System.out.println("the amount exceeds the max amount");
+			} else
+				break;
+		}
+
+		int recipientIndex = -1;
+		String phone;
+		while (true) {
+			System.out.println("Enter recipient phone number:");
+			phone = scannerStrings.nextLine();
+			for (int i = 0; i < DB.accountOwners.length - 1; i++) {
+				if (DB.accountOwners[i] != null) {
+					if (DB.accountOwners[i].phoneNumber.equals(phone)) {
+						recipientIndex = i;
+						break;
+					}
+				}
+			}
+			if (recipientIndex == -1) {
+				System.out.println("Wrong phone number");
+			} else
+				break;
+		}
+
+		account.balance -= amount;
+		account.balance -= account.accountProperties.getFee();
+		DB.accountOwners[recipientIndex].account.balance += amount;
+		ActivityData data1 = new ActivityData(WITHDRAWAL, amount, LocalDateTime.now(),
+				"Transfer to " + DB.accountOwners[recipientIndex].firstName + " "
+						+ DB.accountOwners[recipientIndex].lastName + " amount: " + amount + " fee: "
+						+ account.accountProperties.getFee());
+		account.addHistoryData(data1);
+
+		ActivityData data2 = new ActivityData(TRANSFER, amount, LocalDateTime.now(),
+				"From " + firstName + " " + lastName);
+		DB.accountOwners[recipientIndex].account.addHistoryData(data2);
+		System.out.println("Transferred  to " + DB.accountOwners[recipientIndex].firstName + " "
+				+ DB.accountOwners[recipientIndex].lastName + " amount: " + amount + " fee: "
+				+ account.accountProperties.getFee());
 	}
 
 	public void getLoan() {
@@ -142,10 +191,6 @@ public class AccountOwner extends Person {
 			DB.saveCurrentUser();
 		}
 	}
-//	public void transferFunds()
-//	{
-//		
-//	}
 
 	class Credentials {
 		public String username;
