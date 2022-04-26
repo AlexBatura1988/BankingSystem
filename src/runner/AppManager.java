@@ -3,6 +3,7 @@ package runner;
 import account.Account;
 import Db.DB;
 import account.AccountOwner;
+import account.AccountProperties;
 import account.BankManager;
 import useCases.AccountOwnerMainMenu;
 import useCases.BankManagerMainMenu;
@@ -60,21 +61,23 @@ public class AppManager {
 	}
 
 	private void init() {
-		AccountOwner accountOwner = new AccountOwner();
-		accountOwner.phoneNumber = "1234";
-		accountOwner.monthlyIncome = 12;
-		accountOwner.setUsername("alex");
-		accountOwner.setPassword("1234");
-		accountOwner.account = new Account();
-		accountOwner.account.balance = 100;
-		DB.accountOwners[0] = accountOwner;
+		BankManager bankManager = new BankManager();
+        bankManager.phoneNumber = "123";
+        bankManager.monthlyIncome = 12;
+        bankManager.setUsername("m");
+        bankManager.setPassword("1");
+        Account account1 = new Account();
+        account1.balance += 100000;
+        bankManager.account = account1;
+        DB.accountOwners[0] = bankManager;
 
-		accountOwner = new BankManager();
-		accountOwner.phoneNumber = "123";
-		accountOwner.monthlyIncome = 12;
-		accountOwner.setUsername("Gay");
-		accountOwner.setPassword("1234");
-		DB.accountOwners[1] = accountOwner;
+        AccountOwner accountOwner = new AccountOwner();
+        Account account = new Account();
+        account.accountProperties = AccountProperties.BRONZE;
+        accountOwner.account = account;
+        accountOwner.phoneNumber = "1";
+        accountOwner.setUsername("a");
+        DB.accountOwners[1] = accountOwner;
 	}
 
 }

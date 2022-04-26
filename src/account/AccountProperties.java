@@ -10,6 +10,14 @@ public enum AccountProperties {
 	public int getWithdrawalAmount() {
 		return withdrawalAmount;
 	}
+	
+	public int getLoanAmount() {
+        return loanAmount;
+    }
+
+    public double getRate() {
+        return maxRate;
+    }
 
 	AccountProperties(double minRate, double maxRate, double minFee, double maxFee, int loanAmount,
 			int withdrawalAmount) {
