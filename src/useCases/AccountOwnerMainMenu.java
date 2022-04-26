@@ -35,6 +35,10 @@ public class AccountOwnerMainMenu {
 				AppManager.currUser.getLoan();
 				break;
 			}
+			 case 5: {
+                 AppManager.currUser.produceReport();
+                 break;
+             }
 
 			case 0: {
 				return LOGOUT;
@@ -46,10 +50,11 @@ public class AccountOwnerMainMenu {
 
 	private static void showMenu() {
 		System.out.println("1. Check account balance");
-		System.out.println("2. Make a deposit");
-		System.out.println("3. Withdrawal");
-		System.out.println("4. Request loan");
-		System.out.println("0. logout");
+        System.out.println("2. Make a deposit");
+        System.out.println("3. Withdrawal");
+        System.out.println("4. Request loan");
+        System.out.println("5. Report");
+        System.out.println("0. logout");
 	}
 
 }

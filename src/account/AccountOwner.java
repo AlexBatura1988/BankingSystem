@@ -37,10 +37,24 @@ public class AccountOwner extends Person {
 	public void checkBalance() {
 		System.out.println("Balance:" + account.balance);
 	}
+	
+	public void produceReport() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter date from (dd mm yyyy): ");
+        int day = scanner.nextInt();
+        int month = scanner.nextInt();
+        int year = scanner.nextInt();
+        LocalDate dateFrom = LocalDate.of(year, month, day);
+        for(ActivityData data: account.history) {
+            if (data != null){
+                if (data.timeStamp.isAfter(dateFrom.atTime(0,0))) {
+                    System.out.println(data);
+                }
+            }
+        }
+    }
 
-//	public void produceReport(LocalDate start) {
-//		
-//	}
+
 	public void deposit() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Make a deposit");

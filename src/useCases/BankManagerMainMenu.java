@@ -8,6 +8,7 @@ import account.Account;
 import account.AccountOwner;
 import account.AccountProperties;
 import account.BankManager;
+import runner.AppManager;
 
 public class BankManagerMainMenu {
 
@@ -22,8 +23,13 @@ public class BankManagerMainMenu {
 				break;
 			}
 			case 2: {
-				// report
+				 AppManager.currUser.checkBalance();
+                 break;
 			}
+			case 3: {
+                AppManager.currUser.produceReport();
+                break;
+            }
 			case 0: {
 				return LOGOUT;
 			}
@@ -121,17 +127,19 @@ public class BankManagerMainMenu {
 	}
 
 	private static void showUserPropertyMenu() {
-		System.out.println("0. back");
+		
 		System.out.println("1. BRONZE");
 		System.out.println("2. SILVER");
 		System.out.println("3. GOLD");
 		System.out.println("4. TITANIUM");
+		System.out.println("0. back");
 	}
 
 	private static void showUserInfoMenu() {
-		System.out.println("0. Back");
+		
 		System.out.println("1. set Property");
 		System.out.println("2. Approve");
+		System.out.println("0. Back");
 	}
 
 	private static void showUsersMenu() {
@@ -141,8 +149,9 @@ public class BankManagerMainMenu {
 
 	private static void showMenu() {
 		System.out.println("1. Show users to approve");
-		System.out.println("2. report");
-		System.out.println("0. logout");
+        System.out.println("2. Balance");
+        System.out.println("3. report");
+        System.out.println("0. logout");
 	}
 
 }
