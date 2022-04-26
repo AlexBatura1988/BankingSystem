@@ -1,4 +1,4 @@
-package useCases;
+package useCases.checkers;
 
 import Db.DB;
 import account.AccountOwner;

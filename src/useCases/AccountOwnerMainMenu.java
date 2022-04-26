@@ -7,6 +7,8 @@ import Db.DB;
 import account.ActivityData;
 import account.ActivityName;
 import runner.AppManager;
+import useCases.checkers.CheckWithdrawalDailyLimit;
+
 import static Db.Constants.LOGOUT;
 import static account.ActivityName.*;
 
@@ -43,7 +45,8 @@ public class AccountOwnerMainMenu {
 		System.out.println("Enter amount: ");
 		double amount = Math.abs(scanner.nextDouble());
 		if (CheckWithdrawalDailyLimit.isLimited(amount)) {
-			System.out.println("the amount exceeds the daily max :" + AppManager.currUser.account.accountProperties.getWithdrawalAmount() );
+			System.out.println("the amount exceeds the daily max :"
+					+ AppManager.currUser.account.accountProperties.getWithdrawalAmount());
 		} else {
 			System.out.println("Successfully");
 			AppManager.currUser.withdrawal(amount);

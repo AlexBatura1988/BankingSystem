@@ -1,4 +1,4 @@
-package useCases;
+package useCases.checkers;
 
 import java.time.LocalDate;
 import static account.ActivityName.WITHDRAWAL;

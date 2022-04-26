@@ -1,8 +1,11 @@
 package useCases;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import account.AccountOwner;
+import account.AccountsLocker;
 import runner.AppManager;
 import Db.Constants;
 import Db.DB;
@@ -13,20 +16,41 @@ public class Login {
 		System.out.println("Enter username and pass");
 		Scanner scanner = new Scanner(System.in);
 		String scan;
+		int wrongPassCounter = 0;
+		boolean foundUsername;
 		while (true) {
+			foundUsername = false;
 			scan = scanner.nextLine();
 			for (AccountOwner accountOwner : DB.accountOwners) {
 				if (accountOwner != null) {
 					if (accountOwner.getUsername().equals(scan.split(" ")[0])) {
-						if (accountOwner.checkPassword(scan.split(" ")[1])) {
-							AppManager.currUser = accountOwner;
-							return LOGGED_IN;
+						foundUsername = true;
+
+						if (AccountsLocker.getUsersLockDate(accountOwner) != null) {
+							Duration duration = Duration.between((LocalDateTime.now()),
+									AccountsLocker.getUsersLockDate(accountOwner));
+							System.out.println("Account is locked for " + duration.toMinutes() + " minutes");
+
+						} else {
+							if (accountOwner.checkPassword(scan.split(" ")[1])) {
+								AppManager.currUser = accountOwner;
+								return LOGGED_IN;
+							}
+							System.out.println("Wrong password");
+							wrongPassCounter++;
+							if (wrongPassCounter == 3) {
+								AccountsLocker.addUserToLock(accountOwner);
+								Duration duration = Duration.between((LocalDateTime.now()),
+										AccountsLocker.getUsersLockDate(accountOwner));
+								System.out.println("Account is locked for " + duration.toMinutes() + " minutes");
+								wrongPassCounter = 0;
+							}
 						}
-						System.out.println("Wrong password");
 					}
 				}
 			}
-			System.out.println("Wrong username");
+			if (!foundUsername)
+				System.out.println("Wrong username");
 		}
 	}
 

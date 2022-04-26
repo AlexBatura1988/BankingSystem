@@ -7,6 +7,9 @@ import Db.Constants;
 import Db.DB;
 import account.AccountOwner;
 import account.BankManager;
+import useCases.checkers.CheckUniquePhoneNumber;
+import useCases.checkers.CheckUniqueUserName;
+
 import static Db.Constants.START_SCREEN;
 
 public class CreateAccount {
@@ -51,12 +54,8 @@ public class CreateAccount {
 		accountOwner.monthlyIncome = scanIntFloat.nextDouble();
 
 		System.out.println("waiting for a manager review, approval, and account type setting");
-		for (int i = 0; i < BankManager.usersToApprove.length - 1; i++) {
-			if (BankManager.usersToApprove[i] == null) {
-				BankManager.usersToApprove[i] = accountOwner;
-				break;
-			}
-		}
+		BankManager.addUserToApprove(accountOwner);
+		
 
 		
 		
