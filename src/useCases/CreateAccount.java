@@ -20,15 +20,35 @@ public class CreateAccount {
 		AccountOwner accountOwner = new AccountOwner();
 		while (true) {
 			accountOwner.phoneNumber = scanString.nextLine();
-			System.out.println(accountOwner.phoneNumber);
+			if (accountOwner.phoneNumber.length() < 4) {
+				System.out.println("Too short number, enter again");
+				continue;
+			}
+			if (accountOwner.phoneNumber.matches(".*[a-zA-Z].*")) {
+				System.out.println("Phone number contains letters, enter again");
+				continue;
+			}
 			if (CheckUniquePhoneNumber.isPhoneUnique(accountOwner.phoneNumber))
 				break;
 			System.out.println("Phone is used, enter again");
 		}
-		System.out.println("Enter name (no digits)");
-		accountOwner.firstName = scanString.nextLine();
-		System.out.println("Enter last name (no digits)");
-		accountOwner.lastName = scanString.nextLine();
+		while (true) {
+			System.out.println("Enter name (no digits)");
+			accountOwner.firstName = scanString.nextLine();
+			if (accountOwner.firstName.matches(".*\\d+.*")) {
+				System.out.println("Wrong input, name contains digits");
+			} else
+				break;
+		}
+
+		while (true) {
+			System.out.println("Enter last name (no digits)");
+			accountOwner.lastName = scanString.nextLine();
+			if (accountOwner.lastName.matches(".*\\d+.*")) {
+				System.out.println("Wrong input, last name contains digits");
+			} else
+				break;
+		}
 
 		System.out.println("Enter date of birth (dd mm yyyy)");
 		int day = scanIntFloat.nextInt();
@@ -42,24 +62,32 @@ public class CreateAccount {
 			username = scanString.nextLine();
 			if (CheckUniqueUserName.isUserNameUnique(username))
 				break;
-			System.out.println("Username is used, enter again"); // todo check at least and provide to login?
+			System.out.println("Username is used, enter again");
 		}
 		accountOwner.setUsername(username);
 
-		System.out.println("Enter password"); // todo 4-8 chars, must contain digit and letter
-		String password = scanString.nextLine();
-		accountOwner.setPassword(password);
+		while (true) {
+			System.out.println("Enter password (4-8 digits and letters");
+			String password = scanString.nextLine();
+			if (password.length() < 4 || password.length() > 8) {
+				System.out.println("wrong length");
+				continue;
+			}
+			if (!password.matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$")) {
+				System.out.println("Wrong input");
+			} else {
+				accountOwner.setPassword(password);
+
+				break;
+			}
+		}
 
 		System.out.println("Enter monthly income");
 		accountOwner.monthlyIncome = scanIntFloat.nextDouble();
 
 		System.out.println("waiting for a manager review, approval, and account type setting");
 		BankManager.addUserToApprove(accountOwner);
-		
 
-		
-		
-		
 		return START_SCREEN;
 	}
 
