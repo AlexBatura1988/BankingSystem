@@ -90,15 +90,18 @@ public class BankManagerMainMenu {
 					System.out.println("Set property for users account");
 				} else {
 
-					for (int i = 0; i < DB.accountOwners.length - 1; i++) {
-						if (DB.accountOwners[i] == null) {
-							DB.accountOwners[i] = BankManager.getUsersToApprove()[index];
-							BankManager.getUsersToApprove()[index] = null;
-							break;
-						}
-					}
-
-					System.out.println("Account Approved");
+//					for (int i = 0; i < DB.accountOwners.length - 1; i++) {
+//						if (DB.accountOwners[i] == null) {
+//							DB.accountOwners[i] = BankManager.getUsersToApprove()[index];
+//							BankManager.getUsersToApprove()[index] = null;
+//							break;
+//						}
+//					}
+//
+//					System.out.println("Account Approved");
+//					break;
+					
+					BankManager.saveAccountToDB(index);
 					break;
 				}
 			}
